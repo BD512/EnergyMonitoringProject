@@ -1,3 +1,5 @@
+# By We Are Groot for PA raspberry pi competition 2023
+
 import matplotlib.pyplot as plt
 from ElectricalDevice import ElectDevList
 import numpy as np
