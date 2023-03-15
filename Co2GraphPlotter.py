@@ -3,7 +3,7 @@
 import matplotlib.pyplot as plt
 import time
 
-class Co2Graph:
+class Co2Graph:  # creates the class "Co2GraphPlotter"
     def __init__(self, dev_name):
         self.dev_name = dev_name
         self.lignite = float(0.0)
@@ -20,8 +20,8 @@ class Co2Graph:
         self.plotCo2Graph(12)
         
 
-    def plotCo2Graph(self, energy):
-        self.lignite = float(energy * 1.054)
+    def plotCo2Graph(self, energy):  # this function can be called inside the class to draw the graph
+        self.lignite = float(energy * 1.054)  
         self.coal = float(energy * 0.888)
         self.oil = float(energy * 0.733)
         self.natural_gas = float(energy * 0.499)
@@ -41,7 +41,7 @@ class Co2Graph:
         plt.pause(0.00001)
         
     
-    def updateCo2Graph(self, energy):
+    def updateCo2Graph(self, energy):  # this clears and re-draws the origional graph to update it
         plt.clf()
         self.plotCo2Graph(energy)
         plt.pause(0.00001)
