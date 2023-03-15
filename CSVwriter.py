@@ -1,3 +1,5 @@
+# By We Are Groot for PA raspberry pi competition 2023
+
 import time
 from time import time
 from ElectricalDevice import ElectDevList
