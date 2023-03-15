@@ -1,3 +1,5 @@
+# By We Are Groot for PA raspberry pi competition 2023
+
 from ModDevice import *
 from ElectricalDevice import ElectDevList
 
