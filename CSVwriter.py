@@ -279,7 +279,6 @@ class SingleWattageGraphFile(CsvWriter):
         self.writeNumber(hydroelectric_co2)
         self.writeComma()
         self.writeNumber(wind_co2)
-        self.writeEndOfLine()
         self.writeEndOfLine()  # this line is written so that the data can be put into a graph which goes straight up/ down.
         self.times_list.append(time)
         self.prev_wattage = wattage
