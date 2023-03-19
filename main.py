@@ -127,7 +127,7 @@ class TheApp:
     def run(self) -> bool:
         print("Please switch all devices off")
         self.graph_type = input(
-            "Would you like a graph of the total energy usage over time to be printed or the amount of CO2 produced? For total energy usage type \"a\" OR for the CO2 graph type \"b\" OR for a graph showing individual devices, \"c\" OR for no graph type \"d\"(the processing is quicker so more accurate without showing a real time graaph - the data can still be viewed in the CSV files afterwards:").lower()
+            "Would you like a graph of the total energy usage over time to be printed or the amount of CO2 produced? For total energy usage type \"a\" OR for the CO2 graph type \"b\" OR for a graph showing individual devices, \"c\" OR for no graph type \"d\"(the processing is quicker so more accurate without showing a real time graph - the data can still be viewed in the CSV files afterwards:").lower()
         self.graph = self.initaliseGraph()
         self.latest_power_reading = owen_meter.getWattage()
         self.prev_power_reading = self.latest_power_reading
@@ -203,7 +203,7 @@ class TheApp:
                     self.prev_power_reading = self.latest_power_reading
                 elect_dev_list.updateAllAccumulated(self.sampling_period)
                 self.accumulateTotalEnergy()
-                self.devices_list_file.writeDevData()
+                # self.devices_list_file.writeDevData()
                 # self.latest_power_reading = owen_meter.getWattage()
                 # self.accumulateTotalEnergy()
                 # self.next_app_sample_time += self.sampling_period
