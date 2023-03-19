@@ -202,11 +202,6 @@ class SingleWattageCsvFile(CsvWriter):
         self.writeComma()
         self.writeNumber(wattage)
         self.writeComma()
-        if status == True:
-            self.writeString("on")
-        else:
-            self.writeString("off")
-        self.writeComma()
         self.writeNumber(accumulated)
         self.writeComma()
         self.writeNumber(lignite_co2)
