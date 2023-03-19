@@ -231,4 +231,3 @@ class SingleWattageCsvFile(CsvWriter):
         self.times_list.append(time)
         self.prev_wattage = wattage
         self.all_wattages_list.append(wattage)
-
