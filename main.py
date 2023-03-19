@@ -3,12 +3,13 @@
 import datetime
 import time
 from GlobalVariables import *
-from CSVwriter import CsvEventLogger, CsvWriteAllDevData, SingleWattageGraphFile
+from CSVwriter import CsvEventLogger, SingleWattageCsvFile
 from Co2GraphPlotter import *
 from PowerGraphPlotter import *
 
 # make use of CsvWriteAllDevData, GraphPlottingFile
 # make each devices co2 be shown
+
 
 class TheApp:
 
@@ -67,14 +68,14 @@ class TheApp:
             self.graph.updateGraph()
 
     def initialiseElectDevList(self):  # device names must be individual!  # make more exact
-        elect_dev_list.addElectDev(device_no=0, no_of_modes=1, name="25W bulb", status=False, max_wattages=[28],
+        elect_dev_list.addElectDev(device_no=0, no_of_modes=1, name="25W bulb", max_wattages=[28],
                                    min_wattages=[18], csv_file=self.createCsvFiles("25W bulb")[1]),
-        elect_dev_list.addElectDev(device_no=1, no_of_modes=1, name="60W bulb", status=False, max_wattages=[65],
+        elect_dev_list.addElectDev(device_no=1, no_of_modes=1, name="60W bulb", max_wattages=[65],
                                    min_wattages=[55], csv_file=self.createCsvFiles("60W bulb")[1]),
-        elect_dev_list.addElectDev(device_no=2, no_of_modes=1, name="100W Bulb", status=False, max_wattages=[110],
+        elect_dev_list.addElectDev(device_no=2, no_of_modes=1, name="100W Bulb", max_wattages=[110],
                                    min_wattages=[93],
                                    csv_file=self.createCsvFiles("100W Bulb")[1]),
-        elect_dev_list.addElectDev(device_no=3, no_of_modes=1, name="40W Bulb", status=False, max_wattages=[50],
+        elect_dev_list.addElectDev(device_no=3, no_of_modes=1, name="40W Bulb", max_wattages=[50],
                                    min_wattages=[35],
                                    csv_file=self.createCsvFiles("40W Bulb")[1])
 
@@ -83,28 +84,13 @@ class TheApp:
         today = datetime.date.today()
 
         file_name = "{dev_name}{date}{time}.csv".format(dev_name=dev_name, date=today, time=round(time.time()))
-        file = SingleWattageGraphFile(file_name, dev_name, self.initial_start_time)
-        # file_named = False
-        # while not file_named:
-        #    if os.path.isfile(file_name.format(dev_name=dev_name, date=today, counter=counter)):
-        #        file = open(file_name.format(dev_name=dev_name, date=today, counter=counter), "x")
-        #        file_named = True
-        #    else:
-        #        counter += 1
+        file = SingleWattageCsvFile(file_name, dev_name, self.initial_start_time)
         return file_name, file
 
-    def createCsvFileName(self, dev_name):
-        dev_name.strip()
+    def createCsvFileName(self, name):
+        name.strip()
         today = datetime.date.today()
-
-        file_name = "{dev_name}{date}{time}.csv".format(dev_name=dev_name, date=today, time=round(time.time()))
-        # file_named = False
-        # while not file_named:
-        #    if os.path.isfile(file_name.format(dev_name=dev_name, date=today, counter=counter)):
-        #        file = open(file_name.format(dev_name=dev_name, date=today, counter=counter), "x")
-        #        file_named = True
-        #    else:
-        #        counter += 1
+        file_name = "{dev_name}{date}{time}.csv".format(dev_name=name, date=today, time=round(time.time()))
         return file_name
 
     def showUpdates(self, name, status, wattage, accumulated):
@@ -148,8 +134,7 @@ class TheApp:
         self.initial_start_time = time.time()
         self.initialiseElectDevList()
         self.devices_logger = CsvEventLogger(self.createCsvFileName("devs_log"), time.time())
-        self.devices_list_file = CsvWriteAllDevData(self.createCsvFileName("devs_list"), time.time())
-        self.total_wattage_csv = SingleWattageGraphFile(self.createCsvFileName("total"), "Total", time.time())
+        self.total_wattage_csv = SingleWattageCsvFile(self.createCsvFileName("total"), "Total", time.time())
         while True:
             app_run_time = self.getAppRunTime()
             if app_run_time >= self.app_run_duration:
