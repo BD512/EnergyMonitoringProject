@@ -2,8 +2,6 @@
 
 import time
 from time import time
-from ElectricalDevice import ElectDevList
-
 
 class CsvWriter:
     def __init__(self, file_name: str):
@@ -72,85 +70,7 @@ class CsvEventLogger(CsvWriter):
         self.writeEndOfLine()
 
 
-class CsvWriteAllDevData(CsvWriter, ElectDevList):
-    def __init__(self, file_name: str, start_time: float):
-        super().__init__(file_name)
-        self.file_name = file_name
-        data_file = open(file_name, "w")
-        data_file.close()
-        self.start_time = start_time
-        self.addHeaders()
-
-    def addHeaders(self):
-        self.writeString("Device Number")
-        self.writeComma()
-        self.writeString("Device Name")
-        self.writeComma()
-        self.writeString("Status")
-        self.writeComma()
-        self.writeString("Min wattage")
-        self.writeComma()
-        self.writeString("Max wattage")
-        self.writeComma()
-        self.writeString("Current power")
-        self.writeComma()
-        self.writeString("Accumulated energy")
-        self.writeEndOfLine()
-
-    def writeDevData(self):
-        for current_device in self:
-            self.writeNumber(current_device.device_no)
-            self.writeComma()
-            self.writeString(current_device.name)
-            self.writeComma()
-            if current_device.status:
-                self.writeString("On")
-            else:
-                self.writeString("Off")
-            self.writeComma()
-            self.writeNumber(current_device.min_wattages)
-            self.writeComma()
-            self.writeNumber(current_device.max_wattages)
-            self.writeComma()
-            self.writeNumber(current_device.current_wattage)
-            self.writeComma()
-            self.writeNumber(current_device.accumulated_energy)
-            self.writeEndOfLine()
-
-
-class graphPlottingFile(CsvWriter, ElectDevList):
-    def __init__(self, file_name: str, start_time: float):
-        super().__init__(file_name)
-        self.file_name = file_name
-        data_file = open(file_name, "w")
-        data_file.close()
-        self.start_time = start_time
-        self.addHeaders()
-
-    def addHeaders(self):
-        self.writeString("Time")
-        for current_device in self:
-            self.writeComma()
-            self.writeString(current_device.name)
-        self.writeEndOfLine()
-
-    def writeAllPowers(self):
-        f = open(self.file_name, "r")
-        headers = f.read()[0]
-        index_counter = 1
-        for current_device in self:
-            if current_device.name == headers[index_counter]:
-                continue
-            else:
-                self.addHeaders()
-        self.writeNumber(float(time())-self.start_time)
-        for current_device in self:
-            self.writeComma()
-            self.writeNumber(current_device.current_wattage)
-        self.writeEndOfLine()
-
-
-class SingleWattageGraphFile(CsvWriter):
+class SingleWattageCsvFile(CsvWriter):
     def __init__(self, file_name: str, dev_name: str, start_time: float):
         super().__init__(file_name)
         self.file_name = file_name
@@ -249,16 +169,11 @@ class SingleWattageGraphFile(CsvWriter):
         # self.writeString("Lignite CO2")
         self.writeEndOfLine()
 
-    def writeDeviceWattage(self, wattage, status, accumulated, lignite_co2, coal_co2, oil_co2, natural_gas_co2, solar_pv_co2, biomass_co2, nuclear_co2, hydroelectric_co2, wind_co2):
+    def writeDeviceWattage(self, wattage, accumulated, lignite_co2, coal_co2, oil_co2, natural_gas_co2, solar_pv_co2, biomass_co2, nuclear_co2, hydroelectric_co2, wind_co2):
         time_now = time()
         self.writeNumber(float(time_now)-self.start_time)
         self.writeComma()
         self.writeNumber(self.prev_wattage)
-        self.writeComma()
-        if status == True:
-            self.writeString("on")
-        else:
-            self.writeString("off")
         self.writeComma()
         self.writeNumber(accumulated)
         self.writeComma()
@@ -316,9 +231,4 @@ class SingleWattageGraphFile(CsvWriter):
         self.times_list.append(time)
         self.prev_wattage = wattage
         self.all_wattages_list.append(wattage)
-"""
-a = SingleWattageGraphFile("test2.csv", "a", time())
-a.writeDeviceWattage(23)
-a.writeDeviceWattage(18)
-a.writeDeviceWattage(27)
-"""
+
