@@ -107,7 +107,7 @@ class ElectDevList(list):
         super().__init__()
         self.max_length = int(max_length)
 
-    def addElectDev(self, device_no: int, no_of_modes: int, name: str, status: bool, max_wattages: list,
+    def addElectDev(self, device_no: int, no_of_modes: int, name: str, max_wattages: list,
                     min_wattages: list, csv_file):
         self.append(ElectDevice(device_no, no_of_modes, name, max_wattages, min_wattages, csv_file))
 
@@ -180,3 +180,4 @@ class ElectDevList(list):
             return dev.name, dev.status, dev.current_wattage, dev.accumulated_energy, True  # returns information on the device which has found to have been switched off
         else:
             return False  # returns False if the program hasn't found a single possible device.
+
