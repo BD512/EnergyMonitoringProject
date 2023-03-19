@@ -149,7 +149,7 @@ class ElectDevList(list):
         for current_device in self:
             current_device.updateAccumulated(sample_period)
             
-    def manageNearestMatchToSwitchOn(self, wattage_difference):  # done???
+    def manageNearestMatchToSwitchOn(self, wattage_difference):  # take  in the significant wattage difference which needs to be investigated
         possible_devices = []  # the names of the devices which are on but the mode could be switched
         possible_device_mode_indexes = []  # the indexes of the modes which could be switched on the devices which are on
         for current_device in self:  # current device refers to the record of the current device being looked at
@@ -169,7 +169,7 @@ class ElectDevList(list):
         else:
             return False
 
-    def manageNearestMatchToSwitchOff(self, wattage_difference):  # edit this to fit off
+    def manageNearestMatchToSwitchOff(self, wattage_difference):  # take  in the significant wattage difference which needs to be investigated
         possible_devices = []  # the names of the devices which are on but the mode could be switched
         possible_device_mode_indexes = []  # the indexes of the modes which could be switched on the devices which are on
         for current_device in self:  # current device refers to the record of the current device being looked at
@@ -178,12 +178,12 @@ class ElectDevList(list):
                     # this if statement checks whether if a mode on a device which is already on is switched, would it fit the wattage increase
                     possible_devices.append(current_device)  # adds the name of the current device to the list of possible modes which could be switched
                     possible_device_mode_indexes.append(current_dev_mode)  # adds the index of the possible mode of this device to the possible modes of devices already on list
-        if len(possible_devices) == 1:
-            dev = possible_devices[0]
-            dev.changeStatusOff()
-            dev.changeWattage(0)  # wattage_difference
-            dev.writeToCsv()
-            self.updateAllDevsWattageLists(dev, wattage_difference)
-            return dev.name, dev.status, dev.current_wattage, dev.accumulated_energy, True
+        if len(possible_devices) == 1:  # checks whether a single possible device has been found which could fit the wattage difference
+            dev = possible_devices[0]  # sets dev to this device which has been found
+            dev.changeStatusOff()  # changes the devices status to off (False)
+            dev.changeWattage(0)  # sets the devices wattage to 0 (as it will be off)
+            dev.writeToCsv()  # writes this change in wattage to the device's CSV file
+            self.updateAllDevsWattageLists(dev, wattage_difference)  # updates the wattage list used to plot the graph with this change
+            return dev.name, dev.status, dev.current_wattage, dev.accumulated_energy, True  # returns information on the device which has found to have been switched off
         else:
-            return False
+            return False  # returns False if the program hasn't found a single possible device.
